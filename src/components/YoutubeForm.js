@@ -36,6 +36,12 @@ const validate = (values) => {
   return errors;
 };
 
+const validationSchema = Yup.object({
+  name: Yup.string().required("Required"),
+  email: Yup.string().email("Invalid email format").required("Required"),
+  channel: Yup.string().required("Required"),
+});
+
 const YoutubeForm = () => {
   //useFormik is hook which takes in object. It also returns an object
   const formik = useFormik({
@@ -43,7 +49,8 @@ const YoutubeForm = () => {
     initialValues,
     //onSubmit receives form state as an argument
     onSubmit,
-    validate,
+    // validate,
+    validationSchema,
   });
 
   console.log("Form visited", formik.touched);
@@ -61,7 +68,7 @@ const YoutubeForm = () => {
             onBlur={formik.handleBlur}
             value={formik.values.name}
           />
-          {formik.touched.name && formik.errors.name  ? (
+          {formik.touched.name && formik.errors.name ? (
             <div className="error">{formik.errors.name}</div>
           ) : null}
         </div>
